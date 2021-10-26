@@ -10,8 +10,8 @@
 <body>
     <!-- 검색창 -->
     <div id="search-box">
-        <input id="search" type="text" value="">
-        <input id="submit" type="submit" value="submit">
+        <input id="search" type="text" value="" placeholder="검색 할 단어를 입력하세요">
+        <input id="submit" type="submit" value="검색">
     </div>
 
     <!-- 사전 -->
@@ -35,14 +35,34 @@
                 const {dicts} = data;
 
                 const template = dicts.map(dict => {
-                    return (
+                    if(dict.r_seq != undefined) {
+                        return (
                         `
                             <div class="item">
-                                <div class="word">${dict.name}</div>
-                                <p class="description">${dict.description}</p>
+                                <div class="word">${dict.r_word}
+                                    <sup class="seq">${dict.r_seq}</sup>
+                                    <div class="hanja">${dict.r_hanja}</div>
+                                    <div class="pos">${dict.r_pos}</div>
+                                </div>
+                                
+                                <p class="description">${dict.r_des}</p>
                             </div>
                         `
                     )
+                    }else {
+                        return (
+                            `
+                            <div class="item">
+                                <div class="word">${dict.r_word}
+                                    <div class="hanja">${dict.r_hanja}</div>
+                                    <div class="pos">${dict.r_pos}</div>
+                                </div>
+                                
+                                <p class="description">${dict.r_des}</p>
+                            </div>
+                        `
+                        )
+                    }                  
                 })
                 container.innerHTML = template.join("");
             })
