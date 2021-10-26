@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사전 검색 서비스</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 검색창 -->
+    <div id="search-box">
+        <input id="search" type="text" value="">
+        <input id="submit" type="submit" value="submit">
+    </div>
+
+    <!-- 사전 -->
+    <div id="container"></div>
+
+    <script>
+        const query = document.getElementById("search")
+        const submitBtn = document.getElementById('submit')
+        const BASE_URL = 'http://localhost:5000/api/dicts'
+
+        // 서버 데이터 가져오기
+        function getData(baseUrl, query){
+            fetch(`${baseUrl}/${query}`, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then( res => res.json() )
+            .then( data => {
+                console.log(data)
+                const {dicts} = data;
+
+                const template = dicts.map(dict => {
+                    return (
+                        `
+                            <div class="item">
+                                <div class="word">${dict.name}</div>
+                                <p class="description">${dict.description}</p>
+                            </div>
+                        `
+                    )
+                })
+                container.innerHTML = template.join("");
+            })
+        }
+
+        submitBtn.addEventListener("click", function(){
+            console.log(query.value)
+            getData(BASE_URL, query.value)
+        })
+        query.addEventListener("keypress", function(event){
+            if(event.keyCode === 13){
+                getData(BASE_URL, query.value)
+            }
+        })
+        window.addEventListener('DOMContentLoaded', function(){
+            getData(BASE_URL)
+        })
+    </script>
+</body>
+</html>
