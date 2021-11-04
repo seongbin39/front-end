@@ -1,6 +1,6 @@
 const query = document.getElementById("search")
 const submitBtn = document.getElementById('submit')
-const BASE_URL = 'http://localhost:5000/api/dicts'
+const BASE_URL = 'https://dict39.herokuapp.com/api/dicts'
 
 function checkIfStringHasSpecialCharacters(str) {
     const re = /[-=+#/\?:^$.@*\"※~&%ㆍ!』\\‘|\(\)\[\]\<\>`\'…》]/;
